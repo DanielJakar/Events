@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,52 +13,44 @@ public class MainActivity extends AppCompatActivity {
 
     // define Proerties:
     //in activities / Controllers the properties are the controls.
-
+    private RadioGroup rgTemperature;
     private TextView tvResult;
-    private int counter;
+    private EditText etTemperature;
+    private int temperature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.temp_converter);
 
-
+        rgTemperature = (RadioGroup) findViewById(R.id.rgTemperature);
         tvResult = (TextView) findViewById(R.id.tvResult);
-
-        setTvResult();
-
-
-
-
-
-//        btnSend = (Button) findViewById(R.id.btnSend); //fbc
-//        etMessage = (EditText) findViewById(R.id.etMessage);
-//
-//
-//    }
-//
-//    public void btnClicked(View view) {
-//        String text = etMessage.getText().toString();
-//        Toast.makeText(this, "Hello " + text, Toast.LENGTH_SHORT).show();
-//
-    }
-
-    private void setTvResult(){
-        tvResult.setText(String.valueOf(counter));
-    }
-
-    public void btnClick2(View view) {
-        //btn Plus
-        counter++;
-        setTvResult();
+        etTemperature = (EditText) findViewById(R.id.etTemperature);
 
 
 
     }
 
-    public void btnClicked(View view) {
-        //btn Minus
-        counter--;
-        setTvResult();
+
+
+
+
+    public void calculate(View view) {
+        try {
+            int checkedID = rgTemperature.getCheckedRadioButtonId();
+            double result = 0;
+            double temp = Double.valueOf(etTemperature.getText().toString());
+            if (checkedID == R.id.radioCelsius){
+                result = (temp - 32) * 5.0/9;
+
+            }
+            else {
+                result = temp * 9.0/5 + 32;
+
+            }
+            tvResult.setText(String.valueOf(result));
+        } catch (NumberFormatException e) {
+
+        }
     }
 }
